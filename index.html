@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Quotes Machine</title>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" integrity="sha512-PgQMlq+nqFLV4ylk1gwUOgm6CtIIXkKwaIHp/PAIWHzig/lKZSEGKEysh0TCVbHJXCLN7WetD8TFecIky75ZfQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+ <link rel="stylesheet" href="quote.css">
+</head>
+<body>
+ 
+ 
+ <div class="container">
+  <div class="innerpart">
+   <div class="box">
+    <p class="number">
+     <img src="twitter.png" title="TweetMe" id="tweet">
+    </p>
+   <div class="text">
+    <i class="start-quote fas fa-quote-left"></i>
+    <centre>
+    <p id="quotes" class="quote"></p>
+    <p id ="author" class="author"></p>
+    </centre>
+   </div>
+   <button class="button">
+    <p id="newQ">new Quotes</p>
+   </button>
+   </div>
+  </div>
+ </div>
+ 
+
+ <script>
+  const quotes = document.getElementById("quotes");
+  const author = document.getElementById("author");
+  const newQ = document.getElementById("newQ");
+  const tweet = document.getElementById("tweet");
+  let realData=" ";
+  let quotesData = " ";
+  const tweetnow =() =>{
+    let tweetpost=`https://twitter.com/intent/tweet?text=${quotesData.text}`;
+    window.open(tweetpost);
+  };
+
+  const getNewQuotes = () =>{
+   let rnum = Math.floor(Math.random()*10);
+   quotesData = realData[rnum];
+
+   quotes.innerText = `${quotesData.text}`;
+   quotesData.author ==null ? (author.innerText = "unKnown"):(author.innerText = `${quotesData.author}`);
+   
+  };
+  const getQuotes = async () =>{
+  const api=" https://type.fit/api/quotes";
+  try{
+   let data= await fetch(api);
+   realData= await data.json();
+   getNewQuotes();
+   //console.log(realData[0].text);
+   //console.log(realData[0].author);
+
+  }catch(error){}
+ 
+ };
+  tweet.addEventListener("click",tweetnow);
+  newQ.addEventListener("click",getNewQuotes);
+  getQuotes();
+  
+ </script>
+</body>
+</html>
